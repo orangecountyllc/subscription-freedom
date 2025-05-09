@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - UI Task</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<link rel="stylesheet" href="./style.css">
+<style>
+   li.override-feature::before {
+    content: none !important;
+  }
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- 
+
+INSTRUCTIONS:
+- Using html and css, create the design we shared with you on Figma.
+
+WHAT WE EXPECT FROM YOU:
+- Your code should be scalable and maintainable.
+- Your code should be component-based.
+- Your code should support all modern browsers.
+- You are completely free to use the new css features.
+-->
+
+<!-- YOUR HTML STARTS HERE -->
+
+<section class="plans__container">
+  <div class="plans">
+    <div class="plansHero">
+      <h1 class="plansHero__title">Simple, transparent pricing (for Vehicle Owners) </h1>
+      <p class="plansHero__subtitle">Transparent pricing. No surprise fees—ever.</p>
+      <p class="plansHero__subtitle">Tipping is encouraged and always appreciated.</p>
+      <p class="plansHero__subtitle">100% of your tips go directly to your driver. We never take a cut. </p>
+      <p class="plansHero__subtitle">Vehicle Owners deserve respect—disrespect from riders is never acceptable. </p>
+      <p class="plansHero__subtitle">Our motivation -  <a href="https://www.youtube.com/watch?v=1zGlYNS2qGk"> video </a>   </p> 
+
+    </div>
+    <div class="planItem__container">
+      <!--free plan starts -->
+      <div class="planItem planItem--free">
+
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon symbol symbol--rounded"></div>
+            <h2>Tier 3 </h2>
+          </div>  
+          <div class="card__desc">  </div>
+        </div>
+
+        <div class="price"> </div>
+        
+        <ul class="featureList">
+            <li>Richmond, VA</li>
+            <li>Charlotte, NC</li>
+            <li>Indianapolis, IN</li>
+            <li>Tampa, FL</li>
+            <li>San Antonio, TX</li>
+            <li>Columbus, OH</li>
+            <li>Nashville, TN</li>
+        </ul>
+
+
+      </div>
+      <!--free plan ends -->
+
+
+
+
+
+
+      <!--pro plan starts -->
+      <div   class="planItem planItem--pro">
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon symbol"></div>
+            <h2>Tier 2</h2>
+
+          </div>
+          <div class="card__desc"> </div>
+        </div>
+
+        <div class="price"></span></div>
+
+        <ul class="featureList">
+            <li>Atlanta, GA</li>
+            <li>Miami, FL</li>
+            <li>Philadelphia, PA</li>
+            <li>Denver, CO</li>
+            <li>Austin, TX</li>
+            <li>Dallas, TX</li>
+            <li>Portland, OR</li>
+        </ul>
+
+
+      </div>
+      <!--pro plan ends -->
+
+      <!--entp plan starts -->
+      <div class="planItem planItem--entp">
+        <div class="card">
+          <div class="card__header">
+            <div class="card__icon"></div>
+            <h2>Tier 1 </h2>
+          </div>
+          <div class="card__desc"> 
+            
+            
+          </div>
+        </div>
+
+        <div class="price"> </div>
+
+        <ul class="featureList">
+            <li>New York City, NY</li>
+            <li>Washington, DC</li>
+            <li>Boston, MA</li>
+            <li>Seattle, WA</li>
+            <li>Chicago, IL</li>
+            <li>San Francisco, CA</li>
+            <li>Los Angeles, CA</li>
+        </ul>
+
+
+      </div>
+      <!--entp plan ends -->
+
+    </div>
+  </div>
+</section>
+<!-- partial -->
+
+
+
+<!-- new stuff -->
+
+
+
+  
+</body>
+</html>
