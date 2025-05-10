@@ -74,6 +74,11 @@ body {
 .planItem .price {
   --priceMargin: 2rem 0;
 }
+
+.planItem .price2 {
+  --priceMargin: 0rem 0;
+}
+
 .planItem--pro {
   --border: 0;
   --boxShadow: 0px 14px 30px rgba(204, 204, 204, 0.32);
