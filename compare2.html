@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compare Earnings</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@mui/material@5.14.4/umd/material-ui.production.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/react@17/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mui/material@5.14.4/umd/material-ui.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emotion/react@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emotion/styled@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f0f2f5;
+        padding: 40px;
+      }
+      .mui-container {
+        max-width: 900px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      canvas {
+        width: 100% !important;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mui-container">
+      <h1 style="text-align: center; color: #1976d2;">Compare Your Earnings</h1>
+
+      <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+        <div style="flex: 1;">
+          <label>Number of Rides per Week</label>
+          <input type="range" id="rides" min="1" max="1000" value="100" />
+          <div id="rides-output">100 Rides</div>
+        </div>
+
+        <div style="flex: 1;">
+          <label>Avg Fare per Ride ($)</label>
+          <input type="range" id="fare" min="10" max="100" value="35" />
+          <div id="fare-output">$35</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 20px;">
+        <label>Insurance Cost per Month ($)</label>
+        <input
+          type="number"
+          id="insurance-cost"
+          value="300"
+          min="0"
+          step="1"
+          style="width: 100%; padding: 10px; font-size: 16px; border-radius: 8px; border: 1px solid #ccc;"
+        />
+      </div>
+
+      <div style="display: flex; gap: 20px;">
+        <div style="flex: 1;">
+          <label>Your Platform Service Fee (%)</label>
+          <input type="range" id="service-fee" min="0" max="10" value="1" />
+          <div id="service-fee-output">1%</div>
+        </div>
+
+        <div style="flex: 1;">
+          <label>Uber/Lyft Fee (%)</label>
+          <input type="range" id="uber-fee" min="20" max="50" value="35" />
+          <div id="uber-fee-output">35%</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 30px; font-size: 18px; color: #4caf50; text-align: center;">
+        <strong>Total Earnings per Week:</strong>
+        <div id="earnings">Calculating...</div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <div>
+          <h3 style="color: #1976d2;">With Freedom</h3>
+          <p id="us-earnings">Calculating...</p>
+        </div>
+        <div>
+          <h3 style="color: #e53935;">With Uber/Lyft</h3>
+          <p id="uber-earnings">Calculating...</p>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <strong>You earn <span id="percent-difference">Calculating...</span> more with Freedom.</strong>
+      </div>
+
+      <h2 style="text-align: center; margin-top: 40px;">Compare Earnings Visually</h2>
+      <canvas id="earningsChart"></canvas>
+    </div>
+
+    <script>
+      const ridesInput = document.getElementById('rides');
+      const fareInput = document.getElementById('fare');
+      const insuranceCostInput = document.getElementById('insurance-cost');
+      const serviceFeeInput = document.getElementById('service-fee');
+      const uberFeeInput = document.getElementById('uber-fee');
+
+      const ridesOutput = document.getElementById('rides-output');
+      const fareOutput = document.getElementById('fare-output');
+      const serviceFeeOutput = document.getElementById('service-fee-output');
+      const uberFeeOutput = document.getElementById('uber-fee-output');
+      const earningsOutput = document.getElementById('earnings');
+      const usEarningsOutput = document.getElementById('us-earnings');
+      const uberEarningsOutput = document.getElementById('uber-earnings');
+      const percentDiffOutput = document.getElementById('percent-difference');
+      const earningsChart = document.getElementById('earningsChart').getContext('2d');
+
+      const chart = new Chart(earningsChart, {
+        type: 'bar',
+        data: {
+          labels: ['With Freedom', 'With Uber/Lyft'],
+          datasets: [
+            {
+              label: 'Weekly Earnings',
+              data: [0, 0],
+              backgroundColor: ['#4caf50', '#e53935'],
+              borderColor: ['#388e3c', '#c62828'],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      function calculateEarnings() {
+        const rides = parseInt(ridesInput.value);
+        const fare = parseFloat(fareInput.value);
+        const insurance = parseFloat(insuranceCostInput.value);
+        const serviceFee = parseFloat(serviceFeeInput.value) / 100;
+        const uberFee = parseFloat(uberFeeInput.value) / 100;
+
+        const gross = rides * fare;
+        const earningsUs = gross * (1 - serviceFee) - insurance;
+        const earningsUber = gross * (1 - uberFee) - insurance;
+
+        ridesOutput.textContent = `${rides} Rides`;
+        fareOutput.textContent = `$${fare}`;
+        serviceFeeOutput.textContent = `${parseInt(serviceFeeInput.value)}%`;
+        uberFeeOutput.textContent = `${parseInt(uberFe
